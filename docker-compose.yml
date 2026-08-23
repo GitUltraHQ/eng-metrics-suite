@@ -22,6 +22,7 @@ services:
       BITBUCKET_APP_PASSWORD: ${BITBUCKET_APP_PASSWORD:-}
       BITBUCKET_SERVER_USERNAME: ${BITBUCKET_SERVER_USERNAME:-}
       BITBUCKET_SERVER_TOKEN: ${BITBUCKET_SERVER_TOKEN:-}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
     depends_on:
       - postgres
     volumes:
@@ -41,6 +42,7 @@ services:
       BITBUCKET_APP_PASSWORD: ${BITBUCKET_APP_PASSWORD:-}
       BITBUCKET_SERVER_USERNAME: ${BITBUCKET_SERVER_USERNAME:-}
       BITBUCKET_SERVER_TOKEN: ${BITBUCKET_SERVER_TOKEN:-}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
     depends_on:
       - postgres
 
@@ -52,6 +54,7 @@ services:
     entrypoint: ["python3"]
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
     depends_on:
       - postgres
     volumes:

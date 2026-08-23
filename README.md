@@ -161,6 +161,16 @@ weekly, for a Monday-morning exec digest):
 0 8 * * 1 cd /path/to/eng-metrics-suite && docker compose run --rm eng-reports report.py --period last-week --output /out/weekly-report.pdf
 ```
 
+### Logs
+
+All three application services log structured JSON lines to stdout (one
+JSON object per line: timestamp, level, component, message, plus
+whatever's relevant to that event) — `docker compose logs -f
+git-processor pr-processor` from step 2 shows them as they happen.
+Verbosity is controlled by `LOG_LEVEL` in `.env` (default `INFO`; also
+accepts `DEBUG`, `WARNING`, `ERROR`). Failures include a full traceback
+under an `"exception"` field rather than just a one-line message.
+
 ## Updating
 
 Images are rebuilt and republished automatically. Pull the latest and
