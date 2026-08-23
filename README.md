@@ -23,6 +23,7 @@ cp .env.example .env
 
 sudo mkdir -p /var/lib/eng-metrics-suite
 sudo chown "$(id -u):$(id -g)" /var/lib/eng-metrics-suite
+mkdir -p reports
 
 docker compose up -d
 ```
@@ -34,6 +35,16 @@ read-only into the relevant containers at the same path. It needs to
 exist before `docker compose up` (Docker will auto-create it as
 root-owned otherwise, which then blocks you from writing to it without
 `sudo`).
+
+`./reports` needs the same up-front `mkdir` for a different reason:
+`eng-reports` runs as a non-root user (UID 1000) so its output isn't
+root-owned on the host, but that only helps once the directory already
+exists with the right owner — if Docker has to auto-create `./reports`
+itself (e.g. because you skipped this step), it does so as root, and the
+non-root container then can't write into it at all
+(`PermissionError: [Errno 13] Permission denied`). If your host user
+isn't UID 1000, add `--user "$(id -u):$(id -g)"` to the `docker compose
+run` command in step 3 below instead.
 
 This starts Postgres plus the `git-processor` and `pr-processor` workers.
 The workers exit as soon as they find nothing queued to do — that's
@@ -113,6 +124,14 @@ means more repos get claimed per pass.
 
 ```
 docker compose run --rm eng-reports report.py --output /out/report.pdf
+```
+
+If your host user isn't UID 1000 (check with `id -u`), add `--user
+"$(id -u):$(id -g)"` so the output file comes out owned by you instead of
+UID 1000:
+
+```
+docker compose run --rm --user "$(id -u):$(id -g)" eng-reports report.py --output /out/report.pdf
 ```
 
 The PDF lands in `./reports/report.pdf` on the host (that directory is
