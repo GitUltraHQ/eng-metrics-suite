@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Continuous worker: claims queued repos and imports commit stats. Exits
+  # cleanly (not a crash) whenever the queue is empty -- harmless to leave
+  # running under `restart: unless-stopped` even before you've discovered
+  # any repos yet.
+  git-processor:
+    image: ghcr.io/jsooter/git-processor:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITLAB_TOKEN: ${GITLAB_TOKEN:-}
+      BITBUCKET_USERNAME: ${BITBUCKET_USERNAME:-}
+      BITBUCKET_APP_PASSWORD: ${BITBUCKET_APP_PASSWORD:-}
+      BITBUCKET_SERVER_USERNAME: ${BITBUCKET_SERVER_USERNAME:-}
+      BITBUCKET_SERVER_TOKEN: ${BITBUCKET_SERVER_TOKEN:-}
+    depends_on:
+      - postgres
+
+  # Same idea as git-processor, but for PR/MR stats.
+  pr-processor:
+    image: ghcr.io/jsooter/pr-processor:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITLAB_TOKEN: ${GITLAB_TOKEN:-}
+      BITBUCKET_USERNAME: ${BITBUCKET_USERNAME:-}
+      BITBUCKET_APP_PASSWORD: ${BITBUCKET_APP_PASSWORD:-}
+      BITBUCKET_SERVER_USERNAME: ${BITBUCKET_SERVER_USERNAME:-}
+      BITBUCKET_SERVER_TOKEN: ${BITBUCKET_SERVER_TOKEN:-}
+    depends_on:
+      - postgres
+
+  # Not a long-running service -- report.py always needs args (at minimum
+  # --output), so this container isn't meant to be left running. See the
+  # README for how to invoke it with `docker compose run`.
+  eng-reports:
+    image: ghcr.io/jsooter/eng-reports:latest
+    entrypoint: ["python3"]
+    environment:
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+    depends_on:
+      - postgres
+    volumes:
+      - ./reports:/out
+
+volumes:
+  pgdata:
