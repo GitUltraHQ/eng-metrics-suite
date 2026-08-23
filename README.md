@@ -120,6 +120,14 @@ without further action. `--max-attempts`/`--lease-minutes` are per-repo,
 not per-worker, so scaling up doesn't change retry behavior — it just
 means more repos get claimed per pass.
 
+Be more cautious scaling `pr-processor` if you're importing from
+**Bitbucket Cloud**: it's known to temporarily block source IPs that get
+hit too aggressively. `pr-processor` throttles and backs off automatically,
+but that protection is per-worker-process, not coordinated across
+replicas — N scaled workers still add up to N× the request rate from
+this host's IP. GitHub/GitLab's limits are generous enough that this
+isn't a practical concern there.
+
 ### 3. Generate a report
 
 ```
