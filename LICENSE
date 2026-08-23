@@ -1,17 +1,114 @@
-PLACEHOLDER LICENSE -- NOT LEGAL ADVICE. Replace with a real license/EULA
-drafted by a lawyer before any public release.
+DRAFT END USER LICENSE AGREEMENT -- NOT LEGAL ADVICE.
 
-Copyright (c) 2026 Josh Sooter. All rights reserved.
+This is a starting-point draft, not a reviewed legal document. Have it
+reviewed (and the [PLACEHOLDER] fields filled in) by a licensed attorney
+before relying on it for any real public release.
 
-This software is provided free of charge for use as-is. Redistribution,
-modification, reverse engineering, or resale of this software or its
-source code is not permitted without prior written permission from the
-copyright holder.
+------------------------------------------------------------------------
+
+END USER LICENSE AGREEMENT
+
+Software: eng-metrics-suite (the "Software"), comprising the git-ls-stats,
+git-processor, pr-processor, and eng-reports container images and the
+docker-compose configuration used to run them.
+
+Licensor: Josh Sooter ("Licensor", "we", "us")
+Jurisdiction: State of [PLACEHOLDER: STATE], United States
+
+By downloading, installing, or running the Software, you ("Licensee",
+"you") agree to be bound by this End User License Agreement ("Agreement").
+If you do not agree, do not use the Software.
+
+1. GRANT OF LICENSE
+
+Subject to your compliance with this Agreement, Licensor grants you a
+free, worldwide, non-exclusive, non-transferable, revocable license to
+run the Software, as distributed in compiled/container-image form, for
+any purpose, including internal use at a for-profit organization.
+
+This license covers use of the distributed Software only. It does not
+grant you any right to the underlying source code, which remains
+proprietary and is not distributed under this Agreement.
+
+2. RESTRICTIONS
+
+You may not, and may not permit anyone else to:
+
+  a. redistribute, sell, rent, lease, sublicense, or otherwise make the
+     Software (or the container images it comprises) available to any
+     third party as a standalone offering;
+  b. reverse engineer, decompile, disassemble, or otherwise attempt to
+     derive the source code of the Software, except to the extent
+     applicable law prohibits this restriction;
+  c. modify, create derivative works of, or remove/alter any proprietary
+     notices from the Software; or
+  d. use the Software to build a product or service that competes with
+     the Software.
+
+3. OWNERSHIP
+
+Licensor retains all right, title, and interest in and to the Software,
+including all associated intellectual property rights. This Agreement
+does not grant you any rights to Licensor's trademarks, trade names, or
+logos.
+
+4. THIRD-PARTY COMPONENTS
+
+The Software includes open-source third-party components (including but
+not limited to libgit2, Python, psycopg2, requests, PyYAML, Jinja2,
+WeasyPrint, and matplotlib), each governed by its own license. Your use
+of those components is subject to their respective license terms, which
+this Agreement does not modify.
+
+5. YOUR DATA
+
+The Software is self-hosted: it runs entirely within your own
+infrastructure, against your own PostgreSQL database, and imports data
+(commit metadata, PR/MR metadata, author names and emails) only from
+version-control accounts and repositories you configure it to access.
+Licensor does not operate, receive, or have access to any data processed
+by your instance of the Software. You are solely responsible for
+ensuring your use of the Software, and your handling of any data it
+processes (including personal data such as author names/emails), complies
+with applicable law.
+
+6. NO WARRANTY
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHOR OR COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. LICENSOR DOES NOT
+WARRANT THAT THE SOFTWARE WILL BE ERROR-FREE OR UNINTERRUPTED.
+
+7. LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL LICENSOR BE
+LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE
+DAMAGES, OR ANY LOSS OF DATA, PROFITS, OR BUSINESS, ARISING OUT OF OR
+RELATED TO YOUR USE OF THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES. LICENSOR'S TOTAL LIABILITY ARISING OUT OF THIS AGREEMENT
+SHALL NOT EXCEED THE AMOUNT YOU PAID FOR THE SOFTWARE (WHICH, AS OF THE
+EFFECTIVE DATE OF THIS AGREEMENT, IS ZERO).
+
+8. TERM AND TERMINATION
+
+This Agreement is effective until terminated. Licensor may terminate this
+Agreement immediately if you breach any provision. Upon termination, you
+must stop using the Software and destroy all copies in your possession.
+Sections 3, 6, 7, and 9 survive termination.
+
+9. GOVERNING LAW
+
+This Agreement is governed by the laws of the State of
+[PLACEHOLDER: STATE], United States, without regard to its conflict-of-
+laws principles.
+
+10. MISCELLANEOUS
+
+This Agreement is the entire agreement between you and Licensor regarding
+the Software and supersedes any prior agreements. If any provision is
+held unenforceable, the remaining provisions remain in full effect.
+Licensor's failure to enforce any provision is not a waiver of that
+provision. You may not assign this Agreement without Licensor's prior
+written consent.
+
+Contact: [PLACEHOLDER: contact email/address]
