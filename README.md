@@ -21,8 +21,19 @@ cp .env.example .env
 # edit .env: set a POSTGRES_PASSWORD, and the token(s) for whichever
 # provider(s) you're importing from (GitHub/GitLab/Bitbucket)
 
+sudo mkdir -p /var/lib/eng-metrics-suite
+sudo chown "$(id -u):$(id -g)" /var/lib/eng-metrics-suite
+
 docker compose up -d
 ```
+
+`/var/lib/eng-metrics-suite` is where config files (not secrets — those
+go in `.env`) live: `discover_repos.py`'s `--config` YAML and
+`report.py`'s `--team-map` YAML both get read from there, mounted
+read-only into the relevant containers at the same path. It needs to
+exist before `docker compose up` (Docker will auto-create it as
+root-owned otherwise, which then blocks you from writing to it without
+`sudo`).
 
 This starts Postgres plus the `git-processor` and `pr-processor` workers.
 The workers exit as soon as they find nothing queued to do — that's
@@ -45,6 +56,30 @@ docker compose run --rm --entrypoint python3 git-processor discover_repos.py <or
 personal account — this discovers everything the org owns, not one
 user's repos. Queues each repo found — safe to re-run later to pick up
 new ones.
+
+To skip archived/inactive repos or ones matching a name pattern (e.g. bot
+repos), write a `discover_config.yaml` to `/var/lib/eng-metrics-suite/`
+on the host:
+
+```yaml
+exclude_archived: true            # skip repos the provider reports as archived
+exclude_inactive_days: 730        # skip repos with no push in this many days
+exclude_patterns:                 # skip repos whose "org/repo" name matches (regex, re.search)
+  - "-bot$"
+  - "^terraform-"
+```
+
+Then pass it via `--config`:
+
+```
+docker compose run --rm --entrypoint python3 git-processor discover_repos.py <org-or-group> --provider github --config /var/lib/eng-metrics-suite/discover_config.yaml
+```
+
+Coverage varies by provider: GitHub supports all three keys. Bitbucket
+Cloud has no "archived" concept (`exclude_archived` never matches there)
+and checks `updated_on` instead of push date for inactivity. Bitbucket
+Server's repo-list endpoint exposes neither signal, so only
+`exclude_patterns` does anything there.
 
 ### 2. Let the workers run
 
@@ -69,9 +104,10 @@ bind-mounted into the container). Useful flags:
   (default: last 30 days)
 - `--repo identity_key` (repeatable) and/or `--org github.com/owner` to
   scope the report instead of covering every repo you've imported
-- `--team-map /out/teams.yaml` to roll up commit activity by team instead
-  of by individual author. Put a YAML file mapping author email (or PR
-  username) to team name at `./reports/teams.yaml` on the host, e.g.:
+- `--team-map /var/lib/eng-metrics-suite/teams.yaml` to roll up commit
+  activity by team instead of by individual author. Put a YAML file
+  mapping author email (or PR username) to team name at
+  `/var/lib/eng-metrics-suite/teams.yaml` on the host, e.g.:
   ```yaml
   alice@example.com: Platform
   bob@example.com: Platform

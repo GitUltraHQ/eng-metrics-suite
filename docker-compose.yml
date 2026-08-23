@@ -24,6 +24,10 @@ services:
       BITBUCKET_SERVER_TOKEN: ${BITBUCKET_SERVER_TOKEN:-}
     depends_on:
       - postgres
+    volumes:
+      # Drop discover_repos.py's --config YAML (org/repo exclude patterns
+      # etc.) here, e.g. /var/lib/eng-metrics-suite/discover_config.yaml.
+      - /var/lib/eng-metrics-suite:/var/lib/eng-metrics-suite:ro
 
   # Same idea as git-processor, but for PR/MR stats.
   pr-processor:
@@ -52,6 +56,9 @@ services:
       - postgres
     volumes:
       - ./reports:/out
+      # Drop report.py's --team-map YAML here, e.g.
+      # /var/lib/eng-metrics-suite/teams.yaml.
+      - /var/lib/eng-metrics-suite:/var/lib/eng-metrics-suite:ro
 
 volumes:
   pgdata:
