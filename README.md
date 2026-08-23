@@ -91,6 +91,24 @@ Postgres. Watch progress with:
 docker compose logs -f git-processor pr-processor
 ```
 
+### Scaling workers
+
+There's no worker-count setting — `git-processor` and `pr-processor` each
+claim one repo at a time from the shared queue (`FOR UPDATE SKIP LOCKED`,
+so concurrent claims never collide), and by default `docker compose up`
+runs exactly one of each. To process more repos in parallel, run more
+instances with Compose's `--scale`:
+
+```
+docker compose up -d --scale git-processor=4 --scale pr-processor=4
+```
+
+Each replica still exits once the queue's empty and gets restarted
+independently by `restart: unless-stopped`, so the scale factor persists
+without further action. `--max-attempts`/`--lease-minutes` are per-repo,
+not per-worker, so scaling up doesn't change retry behavior — it just
+means more repos get claimed per pass.
+
 ### 3. Generate a report
 
 ```
