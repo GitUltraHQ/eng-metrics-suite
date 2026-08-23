@@ -32,13 +32,19 @@ until you queue some repos:
 
 ### 1. Discover repos
 
+`git-processor` and `pr-processor`'s default command is their worker
+(`worker.py`), so one-shot scripts like `discover_repos.py` need
+`--entrypoint python3` to override that:
+
 ```
-docker compose run --rm git-processor python3 discover_repos.py <org-or-group> --provider github
+docker compose run --rm --entrypoint python3 git-processor discover_repos.py <org-or-group> --provider github
 ```
 
 `--provider` is `github` (default), `gitlab`, `bitbucket_cloud`, or
-`bitbucket_server`. This enumerates the org's repos via the provider's API
-and queues each one — safe to re-run later to pick up new repos.
+`bitbucket_server`. `<org-or-group>` is an org/group/workspace, not a
+personal account — this discovers everything the org owns, not one
+user's repos. Queues each repo found — safe to re-run later to pick up
+new ones.
 
 ### 2. Let the workers run
 
