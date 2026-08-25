@@ -30,6 +30,16 @@ services:
       # Drop discover_repos.py's --config YAML (org/repo exclude patterns
       # etc.) here, e.g. /var/lib/eng-metrics-suite/discover_config.yaml.
       - /var/lib/eng-metrics-suite:/var/lib/eng-metrics-suite:ro
+    # worker.py exits (cleanly) whenever the queue's empty and gets
+    # restarted by `restart: unless-stopped`, so it logs a "worker
+    # finished" line on every cycle even when it did nothing -- left
+    # unbounded, that trickle adds up over weeks/months of an idle queue.
+    # Docker's default json-file driver has no size cap of its own.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Same idea as git-processor, but for PR/MR stats.
   pr-processor:
@@ -47,6 +57,13 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     depends_on:
       - postgres
+    # See the same-named block on git-processor above -- same "worker.py
+    # logs a line every idle-restart cycle" reasoning applies here too.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Not a long-running service -- report.py always needs args (at minimum
   # --output), so this container isn't meant to be left running. See the
