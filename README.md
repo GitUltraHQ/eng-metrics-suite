@@ -30,7 +30,7 @@ docker compose up -d
 
 `/var/lib/eng-metrics-suite` is where config files (not secrets — those
 go in `.env`) live: `discover_repos.py`'s `--config` YAML and
-`report.py`'s `--team-map` YAML both get read from there, mounted
+`report.py`'s `--team-map` CSV both get read from there, mounted
 read-only into the relevant containers at the same path. It needs to
 exist before `docker compose up` (Docker will auto-create it as
 root-owned otherwise, which then blocks you from writing to it without
@@ -149,14 +149,16 @@ bind-mounted into the container). Useful flags:
   (default: last 30 days)
 - `--repo identity_key` (repeatable) and/or `--org github.com/owner` to
   scope the report instead of covering every repo you've imported
-- `--team-map /var/lib/eng-metrics-suite/teams.yaml` to roll up commit
-  activity by team instead of by individual author. Put a YAML file
-  mapping author email (or PR username) to team name at
-  `/var/lib/eng-metrics-suite/teams.yaml` on the host, e.g.:
-  ```yaml
-  alice@example.com: Platform
-  bob@example.com: Platform
-  carol@example.com: Product
+- `--team-map /var/lib/eng-metrics-suite/teams.csv` to roll up commit
+  activity by team instead of by individual author. Put a CSV file with
+  an `email,team` header at `/var/lib/eng-metrics-suite/teams.csv` on the
+  host — friendlier to maintain in a spreadsheet than a hand-edited config
+  format, e.g.:
+  ```csv
+  email,team
+  alice@example.com,Platform
+  bob@example.com,Platform
+  carol@example.com,Product
   ```
 
 ### Scheduling reports

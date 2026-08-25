@@ -59,8 +59,8 @@ services:
       - postgres
     volumes:
       - ./reports:/out
-      # Drop report.py's --team-map YAML here, e.g.
-      # /var/lib/eng-metrics-suite/teams.yaml.
+      # Drop report.py's --team-map CSV here, e.g.
+      # /var/lib/eng-metrics-suite/teams.csv.
       - /var/lib/eng-metrics-suite:/var/lib/eng-metrics-suite:ro
 
 volumes:
