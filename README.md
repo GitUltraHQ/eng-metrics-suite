@@ -1,9 +1,9 @@
 # eng-metrics-suite
 
 A self-hosted engineering metrics pipeline: import commit and PR/MR stats
-from your GitHub, GitLab, or Bitbucket org into Postgres, and generate a
-PDF report (team/author activity, PR review health, cycle time, repo
-trends) from it.
+from your GitHub, GitLab, Bitbucket, or Azure DevOps org into Postgres,
+and generate a PDF report (team/author activity, PR review health, cycle
+time, repo trends) from it.
 
 This repo is just the `docker-compose.yml` needed to run it — the
 application images (`git-processor`, `pr-processor`, `eng-reports`) are
@@ -17,7 +17,7 @@ Free to use; see [LICENSE](LICENSE).
 ```
 cp .env.example .env
 # edit .env: set a POSTGRES_PASSWORD, and the token(s) for whichever
-# provider(s) you're importing from (GitHub/GitLab/Bitbucket)
+# provider(s) you're importing from (GitHub/GitLab/Bitbucket/Azure DevOps)
 
 sudo mkdir -p /var/lib/eng-metrics-suite
 sudo chown "$(id -u):$(id -g)" /var/lib/eng-metrics-suite
