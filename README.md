@@ -7,10 +7,10 @@ time, repo trends) from it.
 
 This repo is just the `docker-compose.yml` needed to run it — the
 application images (`git-processor`, `pr-processor`, `eng-reports`) are
-published pre-built at [ghcr.io/jsooter](https://github.com/jsooter?tab=packages).
+published pre-built at [ghcr.io/gitultrahq](https://github.com/GitUltraHQ?tab=packages).
 Free to use; see [LICENSE](LICENSE).
 
-**Full docs: [jsooter.github.io/eng-metrics-docs](https://jsooter.github.io/eng-metrics-docs/)**
+**Full docs: [gitultrahq.github.io/eng-metrics-docs](https://gitultrahq.github.io/eng-metrics-docs/)**
 
 ## Quickstart
 
@@ -26,9 +26,9 @@ mkdir -p reports
 docker compose up -d
 ```
 
-See [Getting Started](https://jsooter.github.io/eng-metrics-docs/getting-started/)
+See [Getting Started](https://gitultrahq.github.io/eng-metrics-docs/getting-started/)
 for why those two `mkdir`s matter, then
-[Discovering Repos](https://jsooter.github.io/eng-metrics-docs/discovering-repos/)
+[Discovering Repos](https://gitultrahq.github.io/eng-metrics-docs/discovering-repos/)
 to actually queue something up.
 
 ## Requirements

@@ -12,7 +12,7 @@ services:
   # running under `restart: unless-stopped` even before you've discovered
   # any repos yet.
   git-processor:
-    image: ghcr.io/jsooter/git-processor:latest
+    image: ghcr.io/gitultrahq/git-processor:latest
     restart: unless-stopped
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
@@ -45,7 +45,7 @@ services:
 
   # Same idea as git-processor, but for PR/MR stats.
   pr-processor:
-    image: ghcr.io/jsooter/pr-processor:latest
+    image: ghcr.io/gitultrahq/pr-processor:latest
     restart: unless-stopped
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
@@ -73,7 +73,7 @@ services:
   # --output), so this container isn't meant to be left running. See the
   # README for how to invoke it with `docker compose run`.
   eng-reports:
-    image: ghcr.io/jsooter/eng-reports:latest
+    image: ghcr.io/gitultrahq/eng-reports:latest
     entrypoint: ["python3"]
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
