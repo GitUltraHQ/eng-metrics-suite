@@ -69,6 +69,35 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  # Same idea as pr-processor, but imports incidents from Jira (currently
+  # the only supported issue tracker -- see issue-processor's README) for
+  # eng-reports'/eng-api's change-failure-rate and MTTR metrics. Optional:
+  # idles cleanly (same "empty queue -> clean exit -> restart" pattern as
+  # git-processor/pr-processor above) if no JIRA_* vars are set yet.
+  issue-processor:
+    image: ghcr.io/gitultrahq/issue-processor:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+      JIRA_BASE_URL: ${JIRA_BASE_URL:-}
+      JIRA_EMAIL: ${JIRA_EMAIL:-}
+      JIRA_API_TOKEN: ${JIRA_API_TOKEN:-}
+      JIRA_INCIDENT_ISSUE_TYPES: ${JIRA_INCIDENT_ISSUE_TYPES:-}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      TELEMETRY_DISABLED: ${TELEMETRY_DISABLED:-}
+      TELEMETRY_SHARED_SECRET: ${TELEMETRY_SHARED_SECRET:-}
+    depends_on:
+      - postgres
+    volumes:
+      # Drop discover_jira_projects.py's --config YAML (project<->repo
+      # map) here, e.g. /var/lib/eng-metrics-suite/jira_project_map.yaml.
+      - /var/lib/eng-metrics-suite:/var/lib/eng-metrics-suite:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   # Not a long-running service -- report.py always needs args (at minimum
   # --output), so this container isn't meant to be left running. See the
   # README for how to invoke it with `docker compose run`.
