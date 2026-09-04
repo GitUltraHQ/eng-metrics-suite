@@ -83,6 +83,9 @@ services:
       JIRA_EMAIL: ${JIRA_EMAIL:-}
       JIRA_API_TOKEN: ${JIRA_API_TOKEN:-}
       JIRA_INCIDENT_ISSUE_TYPES: ${JIRA_INCIDENT_ISSUE_TYPES:-}
+      JIRA_ALLOCATION_ISSUE_TYPES: ${JIRA_ALLOCATION_ISSUE_TYPES:-}
+      JIRA_CATEGORY_FIELD: ${JIRA_CATEGORY_FIELD:-}
+      JIRA_STORY_POINTS_FIELD: ${JIRA_STORY_POINTS_FIELD:-}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       TELEMETRY_DISABLED: ${TELEMETRY_DISABLED:-}
       TELEMETRY_SHARED_SECRET: ${TELEMETRY_SHARED_SECRET:-}
@@ -90,7 +93,10 @@ services:
       - postgres
     volumes:
       # Drop discover_jira_projects.py's --config YAML (project<->repo
-      # map) here, e.g. /var/lib/eng-metrics-suite/jira_project_map.yaml.
+      # map) and/or discover_allocation_projects.py's --config YAML
+      # (project key list) here, e.g.
+      # /var/lib/eng-metrics-suite/jira_project_map.yaml,
+      # /var/lib/eng-metrics-suite/allocation_projects.yaml.
       - /var/lib/eng-metrics-suite:/var/lib/eng-metrics-suite:ro
     logging:
       driver: json-file

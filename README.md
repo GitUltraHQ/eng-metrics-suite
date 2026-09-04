@@ -50,6 +50,30 @@ docker compose run --rm issue-processor python3 discover_jira_projects.py \
 This is a hand-maintained mapping, not auto-discovered — there's no Jira
 API that can derive which project's Fix Versions apply to which repo.
 
+### Optional: Investment Allocation Report via Jira
+
+A separate `issue-processor` flow (independent of the CFR/MTTR one
+above — enable one, the other, or both) that categorizes and tracks Jira
+work items for `eng-reports`' second report script. Set
+`JIRA_ALLOCATION_ISSUE_TYPES` (and optionally `JIRA_CATEGORY_FIELD`/
+`JIRA_STORY_POINTS_FIELD`) in `.env`, then drop an
+`allocation_projects.yaml` (see
+[issue-processor](https://github.com/GitUltraHQ/issue-processor)'s
+`allocation_projects.example.yaml` — just a list of project keys, no repo
+mapping needed) into `/var/lib/eng-metrics-suite/` and run its seed script
+once:
+
+```
+docker compose run --rm issue-processor python3 discover_allocation_projects.py \
+    --config /var/lib/eng-metrics-suite/allocation_projects.yaml
+```
+
+Then generate the report:
+
+```
+docker compose run --rm eng-reports allocation_report.py --output /reports/allocation.pdf
+```
+
 ## Requirements
 
 - Docker + Docker Compose
