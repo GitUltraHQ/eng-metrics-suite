@@ -30,14 +30,16 @@ docker compose up -d
 See [Getting Started](https://docs.gitultra.com/getting-started/)
 for why those two `mkdir`s matter, then
 [Discovering Repos](https://docs.gitultra.com/discovering-repos/)
-to actually queue something up.
+to actually queue something up. `docker-compose.yml` also declares a
+`git_mirrors` volume for `git-processor`'s persistent per-repo clone
+cache — Docker manages that one itself, no `mkdir`/`chown` needed.
 
 ### Optional: Change Failure Rate / MTTR via Jira
 
-`issue-processor` idles cleanly if unconfigured (same as
-`git-processor`/`pr-processor` with an empty queue), so it's safe to leave
-running even if you don't use this. To enable it: set the `JIRA_*`
-variables in `.env`, then drop a `jira_project_map.yaml` (see
+`issue-processor` exits cleanly (not a crash-loop) if nothing Jira-related
+is configured at all, so it's safe to leave running even if you don't use
+this. To enable it: set the `JIRA_*` variables in `.env`, then drop a
+`jira_project_map.yaml` (see
 [issue-processor](https://github.com/GitUltraHQ/issue-processor)'s
 `jira_project_map.example.yaml`) into `/var/lib/eng-metrics-suite/` and
 run its seed script once:
