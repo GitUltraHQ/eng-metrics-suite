@@ -4,6 +4,13 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      # Every repo's own comments/READMEs already call this "the shared
+      # git_stats database" -- naming it explicitly instead of relying
+      # on the image's auto-created default `postgres` database avoids
+      # collisions/confusion on backup+restore (a differently-purposed
+      # dump/restore workflow, or an existing Postgres server that
+      # already has its own real `postgres` admin database).
+      POSTGRES_DB: git_stats
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -20,7 +27,7 @@ services:
     image: ghcr.io/gitultrahq/git-processor:latest
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
       GITLAB_TOKEN: ${GITLAB_TOKEN:-}
       BITBUCKET_USERNAME: ${BITBUCKET_USERNAME:-}
@@ -53,7 +60,7 @@ services:
     image: ghcr.io/gitultrahq/pr-processor:latest
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
       GITLAB_TOKEN: ${GITLAB_TOKEN:-}
       BITBUCKET_USERNAME: ${BITBUCKET_USERNAME:-}
@@ -83,7 +90,7 @@ services:
     image: ghcr.io/gitultrahq/issue-processor:latest
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats
       JIRA_BASE_URL: ${JIRA_BASE_URL:-}
       JIRA_EMAIL: ${JIRA_EMAIL:-}
       JIRA_API_TOKEN: ${JIRA_API_TOKEN:-}
@@ -116,7 +123,7 @@ services:
     image: ghcr.io/gitultrahq/eng-reports:latest
     entrypoint: ["python3"]
     environment:
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/postgres
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       TELEMETRY_DISABLED: ${TELEMETRY_DISABLED:-}
       TELEMETRY_SHARED_SECRET: ${TELEMETRY_SHARED_SECRET:-}
