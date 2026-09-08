@@ -11,7 +11,7 @@ optionally `issue-processor` for change-failure-rate/MTTR) are published
 pre-built at [ghcr.io/gitultrahq](https://github.com/GitUltraHQ?tab=packages).
 Free to use; see [LICENSE](LICENSE).
 
-**Full docs: [gitultrahq.github.io/eng-metrics-docs](https://gitultrahq.github.io/eng-metrics-docs/)**
+**Full docs: [docs.gitultra.com](https://docs.gitultra.com/)**
 
 ## Quickstart
 
@@ -27,9 +27,9 @@ mkdir -p reports
 docker compose up -d
 ```
 
-See [Getting Started](https://gitultrahq.github.io/eng-metrics-docs/getting-started/)
+See [Getting Started](https://docs.gitultra.com/getting-started/)
 for why those two `mkdir`s matter, then
-[Discovering Repos](https://gitultrahq.github.io/eng-metrics-docs/discovering-repos/)
+[Discovering Repos](https://docs.gitultra.com/discovering-repos/)
 to actually queue something up.
 
 ### Optional: Change Failure Rate / MTTR via Jira

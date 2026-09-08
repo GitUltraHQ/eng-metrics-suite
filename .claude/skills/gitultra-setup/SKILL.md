@@ -6,7 +6,7 @@ description: Automates end-to-end installation of GitUltra (eng-metrics-suite or
 # GitUltra Setup
 
 This skill is an executable version of the manual install docs at
-https://gitultrahq.github.io/eng-metrics-docs/ (Getting Started →
+https://docs.gitultra.com/ (Getting Started →
 Discovering Repos → Jira Integration → Running Workers → Generating
 Reports). If anything here seems to disagree with those docs, the docs
 are the source of truth -- flag the discrepancy rather than silently
