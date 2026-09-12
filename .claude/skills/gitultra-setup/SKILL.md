@@ -199,3 +199,11 @@ available from the logs), which optional integrations are active, and
 where the report(s) landed on disk. If verification fails at any point,
 say so plainly and point at the specific failing step -- don't paper
 over a failure with a generic "setup complete."
+
+## If the user wants to stop tracking something later
+
+Point them at [Untracking a repo](https://docs.gitultra.com/discovering-repos/#untracking-a-repo)
+/ the matching section in [Jira Integration](https://docs.gitultra.com/jira-integration/)
+(`remove_repo.py` / `remove_jira_project.py` / `remove_allocation_project.py`)
+rather than walking them through it here -- those pages are the source
+of truth for this, not this skill.
