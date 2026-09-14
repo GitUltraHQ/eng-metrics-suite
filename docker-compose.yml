@@ -13,6 +13,26 @@ services:
       POSTGRES_DB: git_stats
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # One-shot: creates/updates the shared schema, then exits -- sole
+  # owner of git_stats' schema, see
+  # gitultra-wiki/Specs/Migrations-Management.md. Every service below
+  # that touches the database waits for this to complete successfully
+  # before starting. restart: "no" is deliberate -- exiting 0 isn't a
+  # crash to recover from, this isn't meant to be left running.
+  migrate:
+    image: ghcr.io/gitultrahq/gitultra-migrate:latest
+    restart: "no"
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   # Continuous worker: claims queued repos and imports commit stats, then
   # polls for new work rather than exiting. Also periodically re-imports
@@ -39,7 +59,8 @@ services:
       TELEMETRY_DISABLED: ${TELEMETRY_DISABLED:-}
       TELEMETRY_SHARED_SECRET: ${TELEMETRY_SHARED_SECRET:-}
     depends_on:
-      - postgres
+      migrate:
+        condition: service_completed_successfully
     volumes:
       # Drop discover_repos.py's --config YAML (org/repo exclude patterns
       # etc.) here, e.g. /var/lib/eng-metrics-suite/discover_config.yaml.
@@ -72,7 +93,8 @@ services:
       TELEMETRY_DISABLED: ${TELEMETRY_DISABLED:-}
       TELEMETRY_SHARED_SECRET: ${TELEMETRY_SHARED_SECRET:-}
     depends_on:
-      - postgres
+      migrate:
+        condition: service_completed_successfully
     logging:
       driver: json-file
       options:
@@ -102,7 +124,8 @@ services:
       TELEMETRY_DISABLED: ${TELEMETRY_DISABLED:-}
       TELEMETRY_SHARED_SECRET: ${TELEMETRY_SHARED_SECRET:-}
     depends_on:
-      - postgres
+      migrate:
+        condition: service_completed_successfully
     volumes:
       # Drop discover_jira_projects.py's --config YAML (project<->repo
       # map) and/or discover_allocation_projects.py's --config YAML
