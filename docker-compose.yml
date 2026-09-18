@@ -150,6 +150,15 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       TELEMETRY_DISABLED: ${TELEMETRY_DISABLED:-}
       TELEMETRY_SHARED_SECRET: ${TELEMETRY_SHARED_SECRET:-}
+      # Only needed if you use email_team_reports.py to email team
+      # reports to managers -- see docs/scheduling.md. Your own SMTP
+      # relay, never GitUltra's -- see
+      # gitultra-wiki/Specs/Team-Reporting-Pseudonymization.md.
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-}
     depends_on:
       - postgres
     volumes:
