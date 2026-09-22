@@ -26,7 +26,7 @@ services:
   # before starting. restart: "no" is deliberate -- exiting 0 isn't a
   # crash to recover from, this isn't meant to be left running.
   migrate:
-    image: ghcr.io/gitultrahq/gitultra-migrate:v1.3.0
+    image: ghcr.io/gitultrahq/gitultra-migrate:v1.4.0
     restart: "no"
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
@@ -78,7 +78,7 @@ services:
   # mirror-cache equivalent needed here: vendor APIs are queried with an
   # incremental "since" filter directly, no local clone involved.
   pr-processor:
-    image: ghcr.io/gitultrahq/pr-processor:v1.0.0
+    image: ghcr.io/gitultrahq/pr-processor:v1.1.0
     restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
@@ -143,7 +143,7 @@ services:
   # --output), so this container isn't meant to be left running. See the
   # README for how to invoke it with `docker compose run`.
   eng-reports:
-    image: ghcr.io/gitultrahq/eng-reports:v1.1.0
+    image: ghcr.io/gitultrahq/eng-reports:v1.2.0
     entrypoint: ["python3"]
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
