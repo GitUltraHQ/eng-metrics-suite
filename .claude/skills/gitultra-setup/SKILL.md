@@ -24,7 +24,7 @@ Run these checks before asking the user anything:
 1. **Which tier is this?** Check whether `docker-compose.yml` in the
    current directory references an `eng-api` service (`grep -q
    "eng-api:" docker-compose.yml`). If yes, this is
-   `eng-metrics-suite-pro` (paid tier) -- follow the "Pro tier only"
+   `eng-metrics-suite-pro` (paid tier) -- follow the "Team tier only"
    notes below in addition to everything else. If no `docker-compose.yml`
    exists at all, or it doesn't look like this repo, stop and ask the
    user to `cd` into their `eng-metrics-suite`/`eng-metrics-suite-pro`
@@ -75,7 +75,7 @@ for it. Ask (in one pass, not one question at a time):
   repos or name patterns (see Step 4's `discover_config.yaml`) -- default
   to no filtering if they don't care, don't force this decision.
 
-**Pro tier only**: also ask for `GITULTRA_LICENSE_KEY` (issued by
+**Team tier only**: also ask for `GITULTRA_LICENSE_KEY` (issued by
 GitUltra after purchase -- if they don't have one, stop and point them
 to support@gitultra.com rather than guessing or proceeding without it).
 **Do not ask for `ENG_API_KEY`** -- generate it yourself with `openssl
@@ -129,7 +129,7 @@ afterward where to find it in `.env` if they want to use it later.
 ## Step 4: Run the actual setup
 
 1. `docker compose up -d` -- starts Postgres plus the workers (and
-   `eng-api`/`gitultra-mcp` on pro tier). The workers exiting
+   `eng-api`/`gitultra-mcp` on Team tier). The workers exiting
    immediately in the logs is expected (nothing queued yet), not a
    failure -- don't misinterpret `docker compose logs` showing an
    exited worker as broken.
@@ -166,7 +166,7 @@ Confirm the stack is actually healthy before declaring victory:
 - `docker compose ps` -- every service should show `running` (or
   `exited (0)` for a worker that's caught up, which is healthy, not
   broken -- exit code non-zero is the actual problem signal).
-- **Pro tier only**: confirm `eng-api` actually started successfully
+- **Team tier only**: confirm `eng-api` actually started successfully
   with the license key -- `docker compose logs eng-api | tail -20`
   should show a normal startup, not a license-check failure exiting
   the process. If it failed, the license key is the first thing to
