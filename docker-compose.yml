@@ -44,7 +44,7 @@ services:
   # git_mirrors (a Docker-managed volume, no host setup needed) and
   # updated via `git fetch` on every resync instead of a full re-clone.
   git-processor:
-    image: ghcr.io/gitultrahq/git-processor:v1.0.0
+    image: ghcr.io/gitultrahq/git-processor:v1.0.1
     restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
@@ -78,7 +78,7 @@ services:
   # mirror-cache equivalent needed here: vendor APIs are queried with an
   # incremental "since" filter directly, no local clone involved.
   pr-processor:
-    image: ghcr.io/gitultrahq/pr-processor:v1.2.0
+    image: ghcr.io/gitultrahq/pr-processor:v1.2.1
     restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
