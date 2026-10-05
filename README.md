@@ -73,7 +73,7 @@ docker compose run --rm issue-processor python3 discover_allocation_projects.py 
 Then generate the report:
 
 ```
-docker compose run --rm eng-reports allocation_report.py --output /reports/allocation.pdf
+docker compose run --rm eng-reports allocation_report.py --output /out/allocation.pdf
 ```
 
 ## Requirements
