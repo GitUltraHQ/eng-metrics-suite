@@ -36,9 +36,9 @@ cache — Docker manages that one itself, no `mkdir`/`chown` needed.
 
 ### Optional: Change Failure Rate / MTTR via Jira
 
-`issue-processor` exits cleanly (not a crash-loop) if nothing Jira-related
-is configured at all, so it's safe to leave running even if you don't use
-this. To enable it: set the `JIRA_*` variables in `.env`, then drop a
+`issue-processor` just sits idle (one "idle" log line, no restarts) if
+nothing Jira-related is configured at all, so it's safe to leave running
+even if you don't use this. To enable it: set the `JIRA_*` variables in `.env`, then drop a
 `jira_project_map.yaml` (see
 [issue-processor](https://github.com/GitUltraHQ/issue-processor)'s
 `jira_project_map.example.yaml`) into `/var/lib/eng-metrics-suite/` and
