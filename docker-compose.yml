@@ -109,7 +109,7 @@ services:
   # with the same periodic resync as git-processor/pr-processor once
   # configured.
   issue-processor:
-    image: ghcr.io/gitultrahq/issue-processor:v1.0.1
+    image: ghcr.io/gitultrahq/issue-processor:v1.0.2
     restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
