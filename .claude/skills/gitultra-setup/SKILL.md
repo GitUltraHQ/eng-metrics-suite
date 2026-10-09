@@ -54,9 +54,13 @@ for it. Ask (in one pass, not one question at a time):
   organization) -- this can't be inferred, it's specific to the
   customer.
 - **Provider token(s)** for whichever provider they named (`GITHUB_TOKEN`,
-  `GITLAB_TOKEN`, `BITBUCKET_USERNAME`+`BITBUCKET_APP_PASSWORD`,
+  `GITLAB_TOKEN`, `BITBUCKET_EMAIL`+`BITBUCKET_API_TOKEN`,
   `BITBUCKET_SERVER_USERNAME`+`BITBUCKET_SERVER_TOKEN`, or
-  `AZURE_DEVOPS_PAT`). These go straight into the user's own local
+  `AZURE_DEVOPS_PAT`). For Bitbucket Cloud that's the person's
+  Atlassian account **email** (not their Bitbucket username) and an
+  Atlassian **API token** for Bitbucket (app passwords were removed in
+  July 2026); nothing else is needed, git-processor works out the git
+  username itself. These go straight into the user's own local
   `.env` file on their own machine -- never echo them back in chat
   after they're entered, and never put them anywhere except that file.
 - **Which optional integrations to enable**: ask plainly, as a single

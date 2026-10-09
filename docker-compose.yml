@@ -50,6 +50,10 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
       GITLAB_TOKEN: ${GITLAB_TOKEN:-}
+      BITBUCKET_EMAIL: ${BITBUCKET_EMAIL:-}
+      BITBUCKET_API_TOKEN: ${BITBUCKET_API_TOKEN:-}
+      # Deprecated names, still read when the two above are empty, so an
+      # existing .env keeps working after an upgrade.
       BITBUCKET_USERNAME: ${BITBUCKET_USERNAME:-}
       BITBUCKET_APP_PASSWORD: ${BITBUCKET_APP_PASSWORD:-}
       BITBUCKET_SERVER_USERNAME: ${BITBUCKET_SERVER_USERNAME:-}
@@ -85,6 +89,10 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
       GITLAB_TOKEN: ${GITLAB_TOKEN:-}
+      BITBUCKET_EMAIL: ${BITBUCKET_EMAIL:-}
+      BITBUCKET_API_TOKEN: ${BITBUCKET_API_TOKEN:-}
+      # Deprecated names, still read when the two above are empty, so an
+      # existing .env keeps working after an upgrade.
       BITBUCKET_USERNAME: ${BITBUCKET_USERNAME:-}
       BITBUCKET_APP_PASSWORD: ${BITBUCKET_APP_PASSWORD:-}
       BITBUCKET_SERVER_USERNAME: ${BITBUCKET_SERVER_USERNAME:-}
