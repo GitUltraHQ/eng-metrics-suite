@@ -152,7 +152,7 @@ services:
   # --output), so this container isn't meant to be left running. See the
   # README for how to invoke it with `docker compose run`.
   eng-reports:
-    image: ghcr.io/gitultrahq/eng-reports:v1.8.5
+    image: ghcr.io/gitultrahq/eng-reports:v1.8.6
     entrypoint: ["python3"]
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
