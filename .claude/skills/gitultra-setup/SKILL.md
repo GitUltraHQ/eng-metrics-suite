@@ -147,13 +147,13 @@ afterward where to find it in `.env` if they want to use it later.
    walk them through it rather than guessing), write it to
    `/var/lib/eng-metrics-suite/`, then:
    ```
-   docker compose run --rm issue-processor python3 discover_jira_projects.py --config /var/lib/eng-metrics-suite/jira_project_map.yaml
+   docker compose run --rm --entrypoint python3 issue-processor discover_jira_projects.py --config /var/lib/eng-metrics-suite/jira_project_map.yaml
    ```
 4. If investment allocation/planning signals was requested: write
    `allocation_projects.yaml` (just a list of project keys, no repo
    mapping needed) to `/var/lib/eng-metrics-suite/`, then:
    ```
-   docker compose run --rm issue-processor python3 discover_allocation_projects.py --config /var/lib/eng-metrics-suite/allocation_projects.yaml
+   docker compose run --rm --entrypoint python3 issue-processor discover_allocation_projects.py --config /var/lib/eng-metrics-suite/allocation_projects.yaml
    ```
 5. Wait for initial import to make real progress before moving on --
    watch `docker compose logs -f git-processor pr-processor

@@ -45,7 +45,7 @@ even if you don't use this. To enable it: set the `JIRA_*` variables in `.env`, 
 run its seed script once:
 
 ```
-docker compose run --rm issue-processor python3 discover_jira_projects.py \
+docker compose run --rm --entrypoint python3 issue-processor discover_jira_projects.py \
     --config /var/lib/eng-metrics-suite/jira_project_map.yaml
 ```
 
@@ -66,7 +66,7 @@ mapping needed) into `/var/lib/eng-metrics-suite/` and run its seed script
 once:
 
 ```
-docker compose run --rm issue-processor python3 discover_allocation_projects.py \
+docker compose run --rm --entrypoint python3 issue-processor discover_allocation_projects.py \
     --config /var/lib/eng-metrics-suite/allocation_projects.yaml
 ```
 
