@@ -152,7 +152,7 @@ services:
   # --output), so this container isn't meant to be left running. See the
   # README for how to invoke it with `docker compose run`.
   eng-reports:
-    image: ghcr.io/gitultrahq/eng-reports:v1.9.1
+    image: ghcr.io/gitultrahq/eng-reports:v1.9.2
     entrypoint: ["python3"]
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/git_stats}
@@ -168,6 +168,10 @@ services:
       SMTP_USERNAME: ${SMTP_USERNAME:-}
       SMTP_PASSWORD: ${SMTP_PASSWORD:-}
       SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-}
+      # Which tags count as deployments in the DORA metrics (report.py's
+      # --tag-pattern default). Same .env name as the Team bundle, where
+      # eng-api reads it too.
+      TAG_PATTERN: ${ENG_API_TAG_PATTERN:-}
     depends_on:
       - postgres
     volumes:
